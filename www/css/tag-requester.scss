@@ -1,0 +1,110 @@
+//Tag Requester Custom SCSS
+
+/* Imports */
+
+@import url('https://fonts.googleapis.com/css?family=Lato');
+
+//Variables
+
+  //Colors
+
+$color-background: #fff;
+$color-text: #222;
+$color-success: #3FC380;
+$color-primary: #446CB3;
+$color-alert: #D91E18;
+$color-highlight: #81CFE0;
+
+  //Typography
+
+$font-size: calc(50% + .5vw + .5vh + 1vmin);;
+$font-family: 'Lato', sans-serif;
+
+//Begin CSS
+
+/* Tags */
+
+body{
+  background: $color-background;
+  color: $color-text;
+  font-size: $font-size;
+  font-family: $font-family;
+  overflow: hidden;
+  margin: 0;
+}
+
+h1{
+}
+
+button{
+  border: 1px solid #333;
+  width: 100%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: $font-size;
+  background: $color-primary;
+  color: $color-background;
+  &:focus{
+    outline: 0;
+  }
+}
+
+select{
+  width: 100%;
+  flex-grow: 0;
+}
+
+/* Utility */
+
+.viewport{
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.success{
+  background: $color-success;
+}
+
+.alert{
+  background: $color-alert;
+}
+
+.heading{
+  width: 100%;
+  padding: 10px;
+  padding-left: 5vw;
+  margin: 0;
+  background: #777;
+  color: $color-background;
+}
+
+/* Custom Classes */
+.flex-divs{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.landing{
+  @extend .flex-divs;
+  button{
+    flex-grow: 1;
+  }
+}
+
+.store{
+  @extend .flex-divs;
+}
+
+.scroll{
+  flex-grow: 0;
+  width: 100%;
+  overflow-y: scroll;
+}
+
+.selected{
+  padding-left: 6vw;
+  background: $color-highlight;
+  color: darken($color-background, 30%);
+}
