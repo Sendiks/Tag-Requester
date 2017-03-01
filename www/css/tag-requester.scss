@@ -122,6 +122,9 @@ select{
   *{
     flex-grow: 1;
   }
+  input{
+    height: auto;
+  }
 }
 
 .submit{
