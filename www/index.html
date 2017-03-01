@@ -8,9 +8,10 @@
     <link rel="stylesheet" href="css/tag-requester.css">
     <link rel="stylesheet" href="css/normalize.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
     <script src="js/controller.js"></script>
   </head>
-  <body ng-cloak>
+  <body ng-cloak id="mainBody">
     <!-- Scan Items -->
     <div ng-show="pageState==0">
       <div class='fixed-top'>
@@ -49,15 +50,15 @@
     <div class='details' ng-show="pageState==1">
       <button class='button alert' ng-click="pageState=0">&#8634; back to scan</button>
       <h2>name</h2>
-      <input type="text" placeholder='your name' ng-model="requestName" />
+      <input type="text" placeholder='request name' ng-model="requestName" id="requestName" />
       <h2>store</h2>
       <select ng-options="store as store for store in stores" ng-model="selectedStore">
       </select>
       <h2>request type</h2>
       <select ng-model="requestType">
-        <option>tag request</option>
-        <option>block request</option>
-        <option>other request</option>
+        <option value="tag">tag request</option>
+        <option value="block">block request</option>
+        <option value="other">other request</option>
       </select>
 
       <button class='button success submit' ng-click="submit()">&#8618; submit</button>
@@ -65,38 +66,31 @@
 
     <script>
 
-        var showWarning = true;
+    var showWarning = true;
 
-        function selectText(element){
-            if(navigator.vendor == "Google Inc."){
-                element.select();
-            }else{
-                element.setSelectionRange(0, 9999);
-            }
-        }
-
-        window.onbeforeunload = function(){
-            if(showWarning){
-              return "The tag request currently in progress will not be saved.";
-            }
-        };
-
-        function onScan(ev){
-          angular.element('body').scope().scan('' + ev.data.value, true);
-          WebBarcode.Linea.emitTones([
-            { "tone":261, "duration":100 },
-            { "tone":329, "duration":100 },
-            { "tone":392, "duration":100 }
-          ]);
-        }
-
-        function AttachLog(type){
-        return function(data){
-            angular.element('body').scope().scan('' + data.value, true);
-        };
+    if ('addEventListener' in document) {
+        document.addEventListener('DOMContentLoaded', function() {
+            FastClick.attach(document.body);
+        }, false);
     }
 
-    //WebBarcode.onBarcodeScan(AttachLog("SCAN"));
+    window.onbeforeunload = function(){
+        if(showWarning){
+          return "The tag request currently in progress will not be saved.";
+        }
+    };
+
+    function onScan(ev){
+      angular.element(document.getElementById('mainBody')).scope().scan('' + ev.data.value);
+      WebBarcode.Linea.emitTones([
+        { "tone":523, "duration":75 },
+        { "tone":659, "duration":75 },
+        { "tone":783, "duration":75 }
+      ]);
+      //WebBarcode.playSoundID(1050);
+
+    }
+
     document.addEventListener("BarcodeScanned", onScan, false);
 
     </script>
