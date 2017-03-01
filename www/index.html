@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="en" dir="ltr">
+<html class="no-js" lang="en" dir="ltr" ng-app="mainApp" ng-controller="MainCtrl">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -7,25 +7,22 @@
     <title>Tag Requester</title>
     <link rel="stylesheet" href="css/tag-requester.css">
     <link rel="stylesheet" href="css/normalize.css">
-    <!--
-    <script src="../../js/vendor/jquery.js"></script>
-    <script src="../../js/vendor/what-input.js"></script>
-    <script src="../../js/vendor/foundation.js"></script>
-    <script src="../../js/app.js"></script>
-  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+    <script src="js/controller.js"></script>
   </head>
-  <body>
+  <body ng-cloak id="mainBody">
     <!-- Scan Items -->
-    <div style='display: none;'>
+    <div ng-show="pageState==0">
       <div class='fixed-top'>
         <table>
           <tbody>
             <tr>
               <td>
-                <input type='number' placeholder='manually enter UPC' />
+                <input type='number' placeholder='manually enter UPC' ng-model='manualTag' />
               </td>
               <td>
-                <button class='button success'>&#43;</button>
+                <button class='button success' ng-click="addManualTag()">&#43;</button>
               </td>
             </tr>
           </tbody>
@@ -34,194 +31,69 @@
       <div class='list-scroll'>
         <table>
           <thead>
-            <th>UPC List</th>
+            <th>Tag List</th>
             <th></th>
           </thead>
-          <tbody>
+          <tbody ng-repeat="tag in tags">
             <tr>
-              <td>this is the first item</td>
+              <td>{{tag}}</td>
               <td>
-                <button class='button alert'>&#x2716;</button>
-              </td>
-            </tr>
-
-            <tr>
-              <td>this is item</td>
-              <td>
-                <button class='button alert'>&#x2716;</button>
-              </td>
-            </tr><tr>
-              <td>this is an item</td>
-              <td>
-                <button class='button alert'>&#x2716;</button>
-              </td>
-            </tr><tr>
-              <td>this is an item</td>
-              <td>
-                <button class='button alert'>&#x2716;</button>
-              </td>
-            </tr><tr>
-              <td>this is an item</td>
-              <td>
-                <button class='button alert'>&#x2716;</button>
-              </td>
-            </tr><tr>
-              <td>this is an item</td>
-              <td>
-                <button class='button alert'>&#x2716;</button>
-              </td>
-            </tr><tr>
-              <td>this is an item</td>
-              <td>
-                <button class='button alert'>&#x2716;</button>
-              </td>
-            </tr><tr>
-              <td>this is an item</td>
-              <td>
-                <button class='button alert'>&#x2716;</button>
-              </td>
-            </tr><tr>
-              <td>this is an item</td>
-              <td>
-                <button class='button alert'>&#x2716;</button>
-              </td>
-            </tr><tr>
-              <td>this is an item</td>
-              <td>
-                <button class='button alert'>&#x2716;</button>
-              </td>
-            </tr><tr>
-              <td>this is an item</td>
-              <td>
-                <button class='button alert'>&#x2716;</button>
-              </td>
-            </tr><tr>
-              <td>this is an item</td>
-              <td>
-                <button class='button alert'>&#x2716;</button>
-              </td>
-            </tr><tr>
-              <td>this is an item</td>
-              <td>
-                <button class='button alert'>&#x2716;</button>
-              </td>
-            </tr><tr>
-              <td>this is an item</td>
-              <td>
-                <button class='button alert'>&#x2716;</button>
-              </td>
-            </tr><tr>
-              <td>this is an item</td>
-              <td>
-                <button class='button alert'>&#x2716;</button>
-              </td>
-            </tr><tr>
-              <td>this is an item</td>
-              <td>
-                <button class='button alert'>&#x2716;</button>
-              </td>
-            </tr><tr>
-              <td>this is an item</td>
-              <td>
-                <button class='button alert'>&#x2716;</button>
-              </td>
-            </tr><tr>
-              <td>this is an item</td>
-              <td>
-                <button class='button alert'>&#x2716;</button>
-              </td>
-            </tr><tr>
-              <td>this is an item</td>
-              <td>
-                <button class='button alert'>&#x2716;</button>
-              </td>
-            </tr><tr>
-              <td>this is an item</td>
-              <td>
-                <button class='button alert'>&#x2716;</button>
-              </td>
-            </tr><tr>
-              <td>this is an item</td>
-              <td>
-                <button class='button alert'>&#x2716;</button>
-              </td>
-            </tr><tr>
-              <td>this is an item</td>
-              <td>
-                <button class='button alert'>&#x2716;</button>
-              </td>
-            </tr><tr>
-              <td>this is an item</td>
-              <td>
-                <button class='button alert'>&#x2716;</button>
-              </td>
-            </tr><tr>
-              <td>this is an item</td>
-              <td>
-                <button class='button alert'>&#x2716;</button>
-              </td>
-            </tr><tr>
-              <td>this is an item</td>
-              <td>
-                <button class='button alert'>&#x2716;</button>
-              </td>
-            </tr><tr>
-              <td>this is an item</td>
-              <td>
-                <button class='button alert'>&#x2716;</button>
-              </td>
-            </tr><tr>
-              <td>this is an item</td>
-              <td>
-                <button class='button alert'>&#x2716;</button>
-              </td>
-            </tr><tr>
-              <td>this is an item</td>
-              <td>
-                <button class='button alert'>&#x2716;</button>
-              </td>
-            </tr><tr>
-              <td>this is an item</td>
-              <td>
-                <button class='button alert'>&#x2716;</button>
-              </td>
-            </tr><tr>
-              <td>this is an item</td>
-              <td>
-                <button class='button alert'>&#x2716;</button>
-              </td>
-            </tr><tr>
-              <td>this is an item</td>
-              <td>
-                <button class='button alert'>&#x2716;</button>
-              </td>
-            </tr><tr>
-              <td>this is an item</td>
-              <td>
-                <button class='button alert'>&#x2716;</button>
+                <button class='button alert' ng-click="remove(tag)">&#x2716;</button>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-      <button class='button fixed-bottom'>&#8594; next</button>
+      <button class='button fixed-bottom' ng-click="toStoreSelection()">&#8594; next</button>
     </div>
     <!-- Details -->
-    <div class='details'>
-      <button class='button alert'>&#8634; back to scan</button>
-
+    <div class='details' ng-show="pageState==1">
+      <button class='button alert' ng-click="pageState=0">&#8634; back to scan</button>
+      <h2>name</h2>
+      <input type="text" placeholder='request name' ng-model="requestName" id="requestName" />
       <h2>store</h2>
-      <select>
-        <option></option>
+      <select ng-options="store as store for store in stores" ng-model="selectedStore">
       </select>
       <h2>request type</h2>
-      <select>
-        <option>tag request</option>
-        <option>block request</option>
-        <option>other request</option>
+      <select ng-model="requestType">
+        <option value="tag">tag request</option>
+        <option value="block">block request</option>
+        <option value="other">other request</option>
       </select>
 
-      <button class='button success submit'>&#8618; submit</button>
+      <button class='button success submit' ng-click="submit()">&#8618; submit</button>
     </div>
+
+    <script>
+
+    var showWarning = true;
+
+    if ('addEventListener' in document) {
+        document.addEventListener('DOMContentLoaded', function() {
+            FastClick.attach(document.body);
+        }, false);
+    }
+
+    window.onbeforeunload = function(){
+        if(showWarning){
+          return "The tag request currently in progress will not be saved.";
+        }
+    };
+
+    function onScan(ev){
+      angular.element(document.getElementById('mainBody')).scope().scan('' + ev.data.value);
+      WebBarcode.Linea.emitTones([
+        { "tone":523, "duration":75 },
+        { "tone":659, "duration":75 },
+        { "tone":783, "duration":75 }
+      ]);
+      //WebBarcode.playSoundID(1050);
+
+    }
+
+    document.addEventListener("BarcodeScanned", onScan, false);
+
+    </script>
+
   </body>
 </html>
