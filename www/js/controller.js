@@ -1,4 +1,4 @@
-var mainApp = angular.module('mainApp', ['ngFileUpload']);
+var mainApp = angular.module('mainApp', []);
 
 mainApp.directive('ngEnter', function () {
     return function (scope, element, attrs) {
@@ -13,7 +13,7 @@ mainApp.directive('ngEnter', function () {
     };
 });
 
-mainApp.controller('MainCtrl', function ($rootScope, $scope, $http) {
+mainApp.controller('MainCtrl', function ($scope, $http) {
 
     /* Members */
     /* This is anything that is not visible to the page, and is used for doing business logic / computation */
@@ -21,16 +21,15 @@ mainApp.controller('MainCtrl', function ($rootScope, $scope, $http) {
     /* Properties */
     /* This is anything that is visible to the page. Prefix is always $scope */
 
-    $scope.departments = [];
-    $scope.categories = [];
-    $scope.uoms = [];
-    $scope.items = [];
-    $scope.file = null;
+    $scope.tags = [];
+    $scope.manualTag = null;
 
-    $scope.selectedItem = null;
-    $scope.user = $rootScope.user;
+    $scope.stores = ["Bayside", "Corners", "Elm Grove", "Franklin", "Germantown", "Grafton", "Greendale", "Greenfield", "Hales Corner",
+    "Hartland", "Lilly Road", "Mequon", "New Berlin", "Wauwatosa", "West Bend", "West Milwaukee", "Whitefish Bay"];
+    $scope.selectedStore = null;
 
-    $scope.filter = {name:''};
+    $scope.pageState = 0;
+    $scope.requestType = null;
 
     /* Methods */
     /* These are functions that are not visible to the page. Used for doing things like loading data, etc */
@@ -44,134 +43,39 @@ mainApp.controller('MainCtrl', function ($rootScope, $scope, $http) {
         });
     }
 
-    function getCategories() {
-        $http({
-            url: "/api/category_with_depth",
-            method: "GET"
-        }).then(function (response) {
-            $scope.categories = response.data['results'];
-            $scope.categories = $scope.categories.map(function(x){
-                x.id = parseInt(x.id);
-                return x;
-            });
-        });
-    }
-
-    function getUOMs() {
-        $http({
-            url: "/api/unit_of_measure",
-            method: "GET"
-        }).then(function (response) {
-            $scope.uoms = response.data['results'];
-        });
-    }
-
-    function getItems() {
-        $scope.items = [];
-        $http({
-            url: "/api/item",
-            method: "GET",
-            params: {
-                department_id: $scope.filter.department_id,
-                name: '%'+$scope.filter.name+'%'
-            }
-        }).then(function (response) {
-            $scope.items = response.data['results'];
-        });
-    }
-
-    window.onbeforeunload = function (e) {
-        if($scope.selectedItem != null){
-            //return "Are you sure you want to navigate away from this page";  
-        }    
-    };
-
     /* Commands */
     /* These are functions that can be tied to the page, such as on button clicks */
 
-    $scope.toggleView = function(view) {
-        $scope.views[view] = !$scope.views[view];
-    };
-
-    $scope.buildDashes = function(dashCount) {
-        var d = '';
-        for(i=0;i<dashCount;i++){
-            d+='-';
+    $scope.addManualTag = function() {
+        if($scope.tags.indexOf($scope.manualTag) == -1){
+            $scope.tags.push($scope.manualTag);
         }
-        return d;
+        $scope.manualTag = null;
     };
 
-    $scope.searchItems = function() {
-        getItems();
-    };
-
-    $scope.selectItem = function(item) {
-        $scope.selectedItem = item;
-    };
-
-    $scope.createItem = function() {
-        $scope.selectedItem = new Item();
-    };
-
-    $scope.cancel = function() {
-        swal({
-            title: 'Are you sure?',
-            text: "Any changes you've made will be lost.",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#2199e8',
-            cancelButtonColor: '#da3116',
-            confirmButtonText: 'Yes'
-        }).then(function() {
-            $scope.selectedItem = null;
-            $scope.file = null;
-            getItems();
-            $scope.$apply();
-        });
-    };
-
-    $scope.save = function() {
-
-    };
-
-    $scope.uploadImage = function() {
-
-    };
-
-    $scope.getDepartmentName = function(id) {
-        if($scope.departments == null) { return '' ; }
-        var d  =  $scope.departments.find((e)=>{return e.id == id;});
-
-        if(d!=null){
-            return d.name;      
+    $scope.scan = function(data) {
+        if($scope.tags.indexOf(data) == -1){
+            $scope.tags.push(data);
         }
-
-        return '';      
     };
 
-    $scope.getCategoryName = function(id) {
-        if($scope.categories == null) { return ''; }
-        return $scope.categories.find((e)=>{return e.id == id;}).name;
+    $scope.remove = function(tag) {
+        $scope.tags.splice($scope.tags.indexOf(tag), 1);
     };
 
-    /* Session */
-    /* Code to make admin sessions work -- Must be duplicated */
+    $scope.toStoreSelection = function() {
+        if($scope.tags.length > 0){
+            $scope.pageState = 1;
+        }
+    };
 
-    function init() {
-        $scope.user = $rootScope.user;
-    }
-    var unbindHandler = $rootScope.$on('init', function () {
-        init();
-        unbindHandler();
-    });
-
+    $scope.submit = function() {
+        console.log($scope.tags);
+        console.log($scope.selectedStore);
+        console.log($scope.requestType);
+    };
 
     /* Constructor */
     /* Runs when the page loads */
-
-    getDepartments();
-    getCategories();
-    getUOMs();
-    getItems();
 
 });
