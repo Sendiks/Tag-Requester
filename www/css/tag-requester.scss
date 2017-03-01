@@ -1,6 +1,6 @@
 //Tag Requester Custom SCSS
 
-/* Imports */
+//Imports
 
 @import url('https://fonts.googleapis.com/css?family=Lato');
 
@@ -13,7 +13,9 @@ $color-text: #222;
 $color-success: #3FC380;
 $color-primary: #446CB3;
 $color-alert: #D91E18;
-$color-highlight: #81CFE0;
+
+$fixed-top-height: 100px;
+$fixed-bottom-height: 60px;
 
   //Typography
 
@@ -22,44 +24,108 @@ $font-family: 'Lato', sans-serif;
 
 //Begin CSS
 
-/* Tags */
+//Tags
 
 body{
   background: $color-background;
   color: $color-text;
   font-size: $font-size;
   font-family: $font-family;
-  overflow: hidden;
+  overflow-x: hidden;
   margin: 0;
 }
 
-h1{
+h2{
+  margin-left: 1vw;
 }
 
-button{
-  border: 1px solid #333;
+.button{
+  border: 0;
   width: 100%;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-top: 6px;
+  padding-bottom: 6px;
   font-size: $font-size;
   background: $color-primary;
   color: $color-background;
+  border:  0;
   &:focus{
     outline: 0;
+  }
+}
+
+input{
+  width: 100%;
+  height: 100%;
+  font-size: $font-size;
+}
+
+table{
+  width: 100%;
+  border-collapse: collapse;
+  thead{
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+  th{
+    background: #ddd;
+    margin: 0;
+  }
+  tr:nth-child(odd){
+    background: #eee;
   }
 }
 
 select{
   width: 100%;
   flex-grow: 0;
+  font-size: $font-size;
+  margin-bottom: 3vh;
 }
 
-/* Utility */
+//Specific
+.fixed-top{
+  position: fixed;
+  height: $fixed-top-height;
+  table{
+    height: 100%;
+    width: 100vw;
+  }
+  button{
+    height: 100px;
+    font-size: $font-size;
+  }
+  td:nth-child(1){
+    background: #ddd;
+    width: 70vw;
+  }
+}
 
-.viewport{
-  height: 100vh;
-  width: 100vw;
+.list-scroll{
+  padding-top: $fixed-top-height;
+  //margin-bottom: $fixed-bottom-height;
+}
+
+.fixed-bottom{
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: $fixed-bottom-height;
+}
+
+.details{
   overflow: hidden;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  *{
+    flex-grow: 1;
+  }
+}
+
+.submit{
+  margin-top: 3vh;
 }
 
 .success{
@@ -68,43 +134,4 @@ select{
 
 .alert{
   background: $color-alert;
-}
-
-.heading{
-  width: 100%;
-  padding: 10px;
-  padding-left: 5vw;
-  margin: 0;
-  background: #777;
-  color: $color-background;
-}
-
-/* Custom Classes */
-.flex-divs{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.landing{
-  @extend .flex-divs;
-  button{
-    flex-grow: 1;
-  }
-}
-
-.store{
-  @extend .flex-divs;
-}
-
-.scroll{
-  flex-grow: 0;
-  width: 100%;
-  overflow-y: scroll;
-}
-
-.selected{
-  padding-left: 6vw;
-  background: $color-highlight;
-  color: darken($color-background, 30%);
 }
